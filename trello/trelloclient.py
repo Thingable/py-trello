@@ -114,6 +114,20 @@ class TrelloClient(object):
 
         return Organization.from_json(self, obj)
 
+    def add_organization(self, display_name, organization_name=None, desc=None, url=None):
+    """Create an organization
+    :param display_name: Name to be displayed for the team
+    :param organization_name: Name of the organization (A string with a length of at least 3. Only lowercase letters,
+        underscores, and numbers are allowed. Must be unique.)
+    :param desc: The description for the team
+    :param url: A URL starting with http:// or https://
+    :rtype: Organization
+    """
+    post_args = {'displayName': display_name, 'desc': description, 'name': organization_name, 'website': url}
+    obj = self.fetch_json('/organizations', http_method='POST',
+                          post_args=post_args)
+    return Organization.from_json(json_obj=obj)
+
     def get_board(self, board_id):
         """Get board
 
@@ -373,7 +387,7 @@ class TrelloClient(object):
 
     def add_star(self, board_id, position = "bottom"):
         """Create a star
-        :param board_iid: Id of the board to star
+        :param board_id: Id of the board to star
         :param position: Optional position of the board star
         :rtype: Star
         """
@@ -384,7 +398,7 @@ class TrelloClient(object):
 
     def delete_star(self, star):
         """Deletes a star
-        :param board_iid: Id of the board to star
+        :param board_id: Id of the board to star
         :param position: Optional position of the board star
         :rtype: Star
         """
